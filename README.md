@@ -1,5 +1,8 @@
-This project is a minimal sample reproducing the issue :  ServletContainerInitializer ignored by Tomcat if in a jar prefixed by "spring" or "google" (or other names from default exclusion list) 
+This project is a minimal sample reproducing the following issue :  
+ServletContainerInitializer ignored by Tomcat if in a jar prefixed by "spring" or "google" (or other names from default exclusion list) 
 when a jar in the classpath contains a web-fragment.xml with ordering set to "before  others".
+
+See https://stackoverflow.com/questions/72635520/servletcontainerinitializer-ignored-by-tomee-because-of-jar-name-and-web-fragmen
 
 ## Steps to reproduce the issue :_ 
 
