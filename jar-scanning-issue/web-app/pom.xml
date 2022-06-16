@@ -1,0 +1,133 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.testapp</groupId>
+	<artifactId>webapp</artifactId>
+	<version>1.0.0-SNAPSHOT</version>
+
+	<packaging>war</packaging>
+
+	<name>webapp</name>
+
+	<properties>
+		<maven.compiler.source>8</maven.compiler.source>
+		<maven.compiler.target>8</maven.compiler.target>
+		<tomeePort>8180</tomeePort>
+		<tomeeDebugPort>8000</tomeeDebugPort>
+		<tomeeAjpRedirectPort>8009</tomeeAjpRedirectPort>
+		<tomeeShutdownPort>8005</tomeeShutdownPort>
+		<tomeeHttpsPort>8280</tomeeHttpsPort>
+		<tomee.Version>8.0.12</tomee.Version>
+		<quick.Session>true</quick.Session>
+		<tomee.Classifier>webprofile</tomee.Classifier>
+		<rmiPort>8099</rmiPort>
+	</properties>
+
+	<build>
+
+		<finalName>jarscanningissue</finalName>
+
+		<plugins>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-eclipse-plugin</artifactId>
+				<version>2.9</version>
+				<configuration>
+					<!-- Always download and attach dependencies source code -->
+					<downloadSources>false</downloadSources>
+					<downloadJavadocs>false</downloadJavadocs>
+					<!-- Avoid type mvn eclipse:eclipse -Dwtpversion=2.0 -->
+					<wtpversion>2.0</wtpversion>
+				</configuration>
+			</plugin>
+
+
+			<!-- Plugin to run tomee : mvn tomee:start http://tomee.apache.org/tomee-maven-plugin.html -->
+			<plugin>
+				<groupId>org.apache.tomee.maven</groupId>
+				<artifactId>tomee-maven-plugin</artifactId>
+				<version>${tomee.Version}</version>
+				<configuration>
+					<tomeeVersion>${tomee.Version}</tomeeVersion>
+					<quickSession>${quickSession}</quickSession>
+					<tomeeClassifier>${tomee.Classifier}</tomeeClassifier>
+					<synchronization>
+						<targetResourcesDir>${project.build.directory}/apache-tomee/webapps/${project.artifactId}</targetResourcesDir>
+						<extensions>
+							<extension>.class</extension>              <!-- if you want to update each time you build with mvn compile -->
+						</extensions>
+						<updateOnlyExtensions>
+							<updateOnlyExtension>.html</updateOnlyExtension>
+							<updateOnlyExtension>.js</updateOnlyExtension>
+							<updateOnlyExtension>.css</updateOnlyExtension>
+						</updateOnlyExtensions>
+					</synchronization>
+					<reloadOnUpdate>true</reloadOnUpdate>
+					<tomeeHttpPort>${tomeePort}</tomeeHttpPort>
+					<tomeeAjpPort>${tomeeAjpRedirectPort}</tomeeAjpPort>
+					<tomeeShutdownPort>${tomeeShutdownPort}</tomeeShutdownPort>
+					<zip>false</zip>
+					<args>-Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=${tomeeDebugPort}</args>
+				</configuration>
+
+			</plugin>
+
+		</plugins>
+
+	</build>
+
+
+	<dependencies>
+
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>4.0.1</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.eyc</groupId>
+			<artifactId>always-working-name</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+
+		</dependency>
+
+		<dependency>
+			<groupId>com.eyc</groupId>
+			<artifactId>spring-named</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+
+		</dependency>
+
+
+
+		<dependency>
+			<groupId>com.eyc</groupId>
+			<artifactId>google-named</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+
+
+	</dependencies>
+
+	<profiles>
+		<profile>
+			<id>ko</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<dependencies>
+				<dependency>
+					<groupId>com.eyc</groupId>
+					<artifactId>jar-web-fragment</artifactId>
+					<version>0.0.1-SNAPSHOT</version>
+				</dependency>
+			</dependencies>
+		</profile>
+	</profiles>
+
+</project>
